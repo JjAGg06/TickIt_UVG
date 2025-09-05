@@ -1,6 +1,9 @@
 <?php
 include("includes/header.php");
+include("includes/slideshow.php");
 ?>
+
+<!-- Aqui se veran las tareas del usuario para dicho dia y la de otros, esto es casi al final w -->
 
 <div class="jumbotron">
     <h1 class="display-3">Proyecto 1 carnal</h1>

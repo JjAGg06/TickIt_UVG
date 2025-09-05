@@ -1,0 +1,188 @@
+/* barra de navegacion che */
+.navbar {
+    background: linear-gradient(90deg, #008c3e 0%, #9ac804 100%);
+    color: #fff;
+    padding: 0.8rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Contenedor principal */
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* lado izquierdo */
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Logo */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.4rem;
+    font-weight: 800; /* ExtraBold */
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar-brand:hover {
+    color: #FFD700;
+}
+
+/* Links */
+.nav-links {
+    display: flex;
+    gap: 1.2rem;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #f5f5f5;
+    font-weight: 600;
+    transition: color 0.3s ease-in-out;
+}
+
+.nav-item:hover {
+    color: #FFD700;
+}
+
+/* barra de busqueda krnal*/
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.search-bar input {
+    border: none;
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    outline: none;
+    font-size: 0.9rem;
+}
+
+.search-bar button {
+    border: none;
+    border-radius: 50%;
+    padding: 0.4rem 0.6rem;
+    background-color: #fff;
+    color: #008c3e;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.search-bar button:hover {
+    background-color: #004d26;
+    color: #fff;
+}
+
+/* responsivo */
+@media (max-width: 768px) {
+    .navbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-bar {
+        margin-top: 0.8rem;
+        width: 100%;
+    }
+
+    .search-bar input {
+        flex: 1;
+        width: 80%;
+    }
+}
+
+/* -footer- */
+.footer {
+    background: linear-gradient(90deg, #008c3e 0%, #9ac804 100%);
+    color: #fff;
+    padding: 2rem 1.5rem;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 2rem;
+}
+
+/* Frase superior del footer (¡Sigue haciendo más Tareas!) */
+.footer-top {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.footer-top h2 {
+    font-weight: 800;
+    font-size: 1.4rem;
+    margin: 0;
+}
+
+/* Contenido del footer */
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Lado izquierdo con logo */
+.footer-left img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: #fff; /* esto tine que cambiar en modo oscuro */
+    padding: 5px;
+}
+
+/* Lado derecho con contacto y redes */
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.footer-right p {
+    margin: 0;
+    font-weight: 500;
+}
+
+.footer-right a {
+    text-decoration: none;
+    color: #fff;
+    transition: color 0.3s ease-in-out;
+}
+
+.footer-right a:hover {
+    color: #FFD700;
+}
+
+/* Íconos */
+.footer-right i {
+    margin-right: 8px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-left img {
+        margin-bottom: 1rem;
+    }
+}

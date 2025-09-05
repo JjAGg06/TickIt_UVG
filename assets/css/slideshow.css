@@ -1,0 +1,109 @@
+/* Slideshow lateral se oculta */
+.slideshow {
+    position: fixed;
+    top: 0;
+    left: -320px; /* se esconde */
+    width: 280px;
+    height: 100%;
+    background: linear-gradient(90deg, #008c3e 0%, #9ac804 100%);
+    box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+    padding: 1rem;
+    transition: left 0.3s ease-in-out;
+    z-index: 2000;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Cuando está activo se muestra */
+.slideshow.active {
+    left: 0;
+}
+
+/* Boton flotante SIEMPRE visible w */
+.floating-icon {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    background: #008c3e;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2100; /* más alto que el slideshow */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background 0.3s ease-in-out;
+}
+
+.floating-icon:hover {
+    background: #005a26;
+}
+
+/* Botones dentro del slideshow */
+.icon-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.top-left {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+}
+
+.top-right {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+/* Perfil */
+.profile-section {
+    text-align: center;
+    margin-top: 4rem;
+}
+
+.profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+}
+
+.username {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #fff;
+}
+
+/* Boton notificaciones y editar usuario (reutilice el mismo formato) */
+.notifications {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.notif-btn {
+    background: #fff;
+    color:  #008c3e;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.notif-btn:hover {
+    background: #FFD700;
+}
+
+/* Calendario (esta por terminar)*/
+.calendar {
+    text-align: center;
+}
