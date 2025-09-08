@@ -66,8 +66,11 @@ if (isset($_SESSION['usuario_id'])) {
 
             <!-- Boton editar perfil -->
             <div class="notifications">
-                <button class="notif-btn"><i class="fa-solid fa-user"></i> Editar Perfil</button>
-            </div>
+    <button class="notif-btn" onclick="window.location.href='editarperfil.php'">
+        <i class="fa-solid fa-user"></i> Editar Perfil
+    </button>
+</div>
+
 
             <!-- Boton para notificaciones -->
             <div class="notifications">
