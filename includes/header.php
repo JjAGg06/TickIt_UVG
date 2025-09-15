@@ -6,6 +6,7 @@ if (!defined('NOMBRE_SITIO')) {
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+date_default_timezone_set('America/Guatemala');
 ?>
 <!DOCTYPE html>
 <html lang="es">

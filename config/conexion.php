@@ -1,6 +1,6 @@
 <?php
 if(!defined('NOMBRE_SITIO')){
-    include_once(__DIR__ . '/config/config.php');
+    include_once(__DIR__ . '/config.php');
 }
 
 $host = "localhost"; //indico la ip del servidor

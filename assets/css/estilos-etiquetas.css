@@ -1,0 +1,148 @@
+/* General */
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400; /* más suave */
+    color: #333;
+    background-color: #fff;
+}
+
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1; /* Ocupa el espacio entre header y footer */
+}
+
+/* Card del formulario */
+.card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+/* TITULOS */
+h2, h4 {
+    color: #008c3e;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* FORMULARIO más compacto */
+.card-body form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+form .form-group label {
+    font-weight: 600;
+    color: #111;
+    display: block;
+    margin-bottom: 0.4rem;
+}
+
+form .form-control {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: border 0.3s;
+    font-size: 0.95rem;
+}
+
+form .form-control:focus {
+    border: 2px solid #008c3e;
+}
+
+/* BOTÓN "Crear" reducido */
+/* Botones principales (Crear / Actualizar) */
+.btn-success, 
+.btn-primary {
+    background-color: #008c3e !important;
+    border: none !important;
+    color: #fff !important;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-success:hover, 
+.btn-primary:hover {
+    background-color: #006f2c !important;
+}
+
+/* Botones secundarios */
+.btn-secondary {
+    background-color: #ccc !important;
+    color: #111 !important;
+}
+
+.btn-secondary:hover {
+    background-color: #999 !important;
+    color: #fff !important;
+}
+
+/* Tabla */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.table thead {
+    background-color: #008c3e;
+    color: #fff;
+}
+
+.table tbody tr:hover {
+    background-color: #d4edda;
+}
+
+.table td, .table th {
+    padding: 0.8rem;
+    text-align: center;
+}
+
+/* Vista previa color */
+.vista-previa {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #008c3e;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+}
+
+/* Botón pequeño */
+.btn-sm {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85rem;
+}
+
+/* Tooltip para celdas */
+td[title] {
+    position: relative;
+    cursor: pointer;
+}
+
+td[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    background: #008c3e;
+    color: #fff;
+    padding: 0.3rem 0.5rem;
+    border-radius: 6px;
+    top: -1.5rem;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    z-index: 100;
+}
