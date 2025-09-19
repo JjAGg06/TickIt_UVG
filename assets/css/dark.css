@@ -1,0 +1,65 @@
+/* ======================
+   MODO OSCURO GLOBAL
+   ====================== */
+body.dark-mode {
+    background-color: #121212;
+    color: #f1f1f1;
+}
+
+body.dark-mode header,
+body.dark-mode nav,
+body.dark-mode footer {
+    background-color: #1e1e1e;
+    border-color: #333;
+}
+
+body.dark-mode .container,
+body.dark-mode .tarea,
+body.dark-mode .card,
+body.dark-mode .notificacion,
+body.dark-mode #modalTarea > div {
+    background-color: #1a1a1a;
+    border-color: #444;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.7);
+}
+
+body.dark-mode a {
+    color: #90caf9;
+}
+
+body.dark-mode button,
+body.dark-mode .btn {
+    background-color: #333;
+    color: #f1f1f1;
+    border: 1px solid #555;
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+    background-color: #222;
+    color: #f1f1f1;
+    border: 1px solid #555;
+}
+
+body.dark-mode .linea {
+    border-color: #555;
+}
+
+body.dark-mode .profile-section p,
+body.dark-mode .username {
+    color: #f1f1f1;
+}
+
+body.dark-mode .notifications a {
+    color: #90caf9;
+}
+
+body.dark-mode .slideshow {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .icon-btn {
+    color: #f1f1f1;
+    border-color: #555;
+}
