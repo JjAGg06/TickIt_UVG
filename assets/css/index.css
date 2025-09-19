@@ -1,0 +1,181 @@
+/* Contenedor principal */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* Línea separadora */
+.linea {
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1rem 0;
+}
+
+/* Tareas */
+.tarea {
+    cursor: pointer;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    transition: background 0.2s;
+}
+
+.tarea:hover {
+    background-color: #f0f0f0;
+}
+
+/* Etiquetas dentro de la tarea */
+.tarea span {
+    display: inline-block;
+    padding: 2px 6px;
+    margin: 2px;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 0.85rem;
+}
+
+/* Botones dentro de las tareas (modal) */
+#modalTarea {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+#modalTarea > div {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+}
+
+#modalTarea button {
+    width: 80%;
+    margin: 5px 0;
+    padding: 8px 0;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+#btnVerTarea { background-color: #007bff; color: #fff; }
+#btnVerEtiquetas { background-color: #17a2b8; color: #fff; }
+#btnCompletar { background-color: #28a745; color: #fff; }
+#btnCerrar { background-color: #6c757d; color: #fff; }
+
+/* Calendario */
+.calendar {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.calendar input[type="date"] {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Botón flotante */
+.floating-icon {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    background: #008c3e;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2100;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background 0.3s ease-in-out;
+}
+
+.floating-icon:hover {
+    background: #005a26;
+}
+
+/* Slideshow lateral */
+.slideshow {
+    position: fixed;
+    top: 0;
+    left: -320px;
+    width: 280px;
+    height: 100%;
+    background: linear-gradient(90deg, #008c3e 0%, #9ac804 100%);
+    box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+    padding: 1rem;
+    transition: left 0.3s ease-in-out;
+    z-index: 2000;
+    font-family: 'Poppins', sans-serif;
+}
+
+.slideshow.active { left: 0; }
+
+/* Botones dentro del slideshow */
+.icon-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.top-left { position: absolute; top: 1rem; left: 1rem; }
+.top-right { position: absolute; top: 1rem; right: 1rem; }
+
+/* Perfil */
+.profile-section {
+    text-align: center;
+    margin-top: 4rem;
+}
+
+.profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+}
+
+.username {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #fff;
+}
+
+/* Botones de notificaciones y editar usuario */
+.notifications {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.notif-btn {
+    background: #fff;
+    color:  #008c3e;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.notif-btn:hover {
+    background: #FFD700;
+}
