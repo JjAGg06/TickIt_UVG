@@ -71,6 +71,7 @@ if (isset($_GET['editar'])) {
 
 <!-- CSS personalizado -->
 <link rel="stylesheet" href="<?php echo URL_BASE ?>/assets/css/estilos-etiquetas.css" />
+<link rel="stylesheet" href="<?php echo URL_BASE ?>/assets/css/dark.css" />
 
 <div class="container mt-4">
     <h2 class="mb-4">Gestión de Etiquetas <b><?php echo htmlspecialchars($user['username']); ?></b></h2>

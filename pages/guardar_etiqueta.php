@@ -84,6 +84,7 @@ if (isset($_GET['eliminar'])) {
     <meta charset="UTF-8">
     <title>Mis Etiquetas</title>
     <link rel="stylesheet" href="<?php echo URL_BASE; ?>/assets/css/estilo-etiquetas.css">
+    <link rel="stylesheet" href="<?php echo URL_BASE ?>/assets/css/dark.css" />
 </head>
 <body>
     <h1>Administrar Etiquetas</h1>
