@@ -212,7 +212,7 @@ while ($row = $res->fetch_assoc()) {
 
 <div id="modalEliminar" class="modal-custom">
     <div class="modal-content-custom">
-        <h5>¿Estás seguro de eliminar esta etiqueta?</h5>
+        <h5>¿Estás seguro de eliminar esta Tarea?</h5>
         <div class="mt-3">
             <button id="btnSiEliminar" class="btn btn-success">Sí</button>
             <button id="btnNoEliminar" class="btn btn-secondary">No</button>
