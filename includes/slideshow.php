@@ -12,7 +12,7 @@ include_once(__DIR__ . '/../config/conexion.php');
 $user = null;
 if (isset($_SESSION['usuario_id'])) {
     $id = $_SESSION['usuario_id'];
-    $sql = "SELECT username, imagen FROM usuario WHERE id_usuario = ?";
+    $sql = "SELECT username, imagen, tema_preferido FROM usuario WHERE id_usuario = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -30,16 +30,23 @@ if (isset($_SESSION['usuario_id'])) {
     <link rel="stylesheet" href="<?php echo URL_BASE ?>/assets/css/slideshow.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body.dark-mode {
+            background-color: #2b2b2b;
+            color: #f1f1f1;
+        }
+    </style>
 </head>
 
-<body>
+<body class="<?php echo ($user && $user['tema_preferido'] === 'oscuro') ? 'dark-mode' : ''; ?>">
 
     <!-- Boton flotante -->
     <button id="open-slideshow" class="floating-icon">
         <i class="fa-solid fa-bars"></i>
     </button>
 
-    <!-- Slideshow oculto asi bn maquiavelico -->
+    <!-- Slideshow oculto -->
     <div class="slideshow" id="slideshow">
 
         <?php if ($user) { ?>
@@ -50,9 +57,11 @@ if (isset($_SESSION['usuario_id'])) {
                 </a>
             </div>
 
-            <!-- Icono cambiar tema --> <!-- daniel debes de hacerlo funcional hasta el final -->
+            <!-- Icono cambiar tema -->
             <div class="top-right">
-                <button class="icon-btn" id="toggle-theme"><i class="fa-solid fa-moon"></i></button>
+                <button class="icon-btn" id="toggle-theme">
+                    <i class="fa-solid <?php echo ($user['tema_preferido'] === 'oscuro') ? 'fa-sun' : 'fa-moon'; ?>"></i>
+                </button>
             </div>
 
             <!-- Imagen perfil del usuario -->
@@ -81,7 +90,7 @@ if (isset($_SESSION['usuario_id'])) {
             </div>
 
         <?php } else { ?>
-            <!-- Si NO hay sesión w -->
+            <!-- Si NO hay sesión -->
             <div class="profile-section">
                 <img src="<?php echo URL_BASE ?>/assets/img/user.png" alt="Perfil" class="profile-img">
                 <p class="username">Invitado</p>
@@ -113,22 +122,30 @@ if (isset($_SESSION['usuario_id'])) {
             }
         });
 
-        // Cambio de tema (solo si existe el botón)
+        // Cambio de tema
         const toggleBtn = document.getElementById("toggle-theme");
         if (toggleBtn) {
             toggleBtn.addEventListener("click", function() {
                 document.body.classList.toggle("dark-mode");
                 const icon = this.querySelector("i");
-                if (document.body.classList.contains("dark-mode")) {
+                const nuevoTema = document.body.classList.contains("dark-mode") ? "oscuro" : "claro";
+
+                if (nuevoTema === "oscuro") {
                     icon.classList.remove("fa-moon");
                     icon.classList.add("fa-sun");
                 } else {
                     icon.classList.remove("fa-sun");
                     icon.classList.add("fa-moon");
                 }
+
+                // Guardar preferencia en BD
+                fetch("<?php echo URL_BASE; ?>/pages/tema_preferido.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: "tema=" + encodeURIComponent(nuevoTema)
+                });
             });
         }
     </script>
 </body>
-
 </html>

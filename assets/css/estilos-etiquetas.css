@@ -18,11 +18,12 @@ html, body {
 
 /* Card del formulario */
 .card {
+    max-width: 45%;
     background: #fff;
     padding: 1.5rem;
     border-radius: 16px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
+    margin: 0 auto 2rem auto;
     text-align: left;
 }
 
@@ -145,4 +146,125 @@ td[title]:hover::after {
     white-space: nowrap;
     font-size: 0.85rem;
     z-index: 100;
+}
+
+/* ======================
+   MODO OSCURO ETIQUETAS
+   ====================== */
+
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+}
+
+/* Card del formulario */
+body.dark-mode .card {
+    background: #2c2c2c;
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+}
+
+/* Títulos */
+body.dark-mode h2, 
+body.dark-mode h4 {
+    color: #00c853; /* Verde más vivo */
+}
+
+/* Labels de formulario */
+body.dark-mode form .form-group label {
+    color: #f1f1f1;
+}
+
+/* Inputs */
+body.dark-mode form .form-control {
+    background: #3a3a3a;
+    border: 1px solid #666;
+    color: #fff;
+}
+
+body.dark-mode form .form-control:focus {
+    border: 2px solid #00c853;
+    box-shadow: 0 0 6px rgba(0, 200, 83, 0.5);
+}
+
+/* Botones principales */
+body.dark-mode .btn-success,
+body.dark-mode .btn-primary {
+    background-color: #00c853 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .btn-success:hover,
+body.dark-mode .btn-primary:hover {
+    background-color: #009624 !important;
+}
+
+/* Botón secundario */
+body.dark-mode .btn-secondary {
+    background-color: #555 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background-color: #777 !important;
+    color: #fff !important;
+}
+
+/* Tabla */
+body.dark-mode .table thead {
+    background-color: #00c853;
+    color: #fff;
+}
+
+body.dark-mode .table tbody tr:hover {
+    background-color: #2e2e2e;
+}
+
+body.dark-mode .table td,
+body.dark-mode .table th {
+    border-color: #444;
+    color: #f1f1f1;
+}
+
+/* Vista previa de color */
+body.dark-mode .vista-previa {
+    border: 2px solid #00c853;
+    box-shadow: 0 0 5px rgba(0, 200, 83, 0.5);
+}
+
+/* Tooltips */
+body.dark-mode td[title]:hover::after {
+    background: #00c853;
+    color: #fff;
+}
+
+/* Estilos generales para enlaces en acciones */
+a.action-link {
+    color: #008c3e; /* verde principal */
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a.action-link:hover {
+    color: #006f2c; /* verde más oscuro al pasar */
+}
+
+/* MODO OSCURO */
+body.dark-mode a.action-link {
+    color: #4db6ac; /* celeste verdoso brillante, más visible en oscuro */
+}
+
+body.dark-mode a.action-link:hover {
+    color: #80cbc4; /* tono más claro en hover */
+}
+
+body.dark-mode #modalEliminar > div {
+    background-color: #333; /* Fondo oscuro para el contenido del modal */
+    color: #fff; /* Texto blanco */
+    border: 1px solid #444; /* Borde sutil */
+}
+
+body.dark-mode #modalEliminar h5 {
+    color: #fff; /* Asegura que el título sea blanco */
 }

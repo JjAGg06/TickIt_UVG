@@ -1,4 +1,6 @@
-<?php include("../includes/slideshow.php");
+<?php
+include("../includes/slideshow.php");
+
 if (!defined('NOMBRE_SITIO')) {
     include_once(__DIR__ . '/../config/config.php');
 }
@@ -42,7 +44,7 @@ $prioridad = 'media';
 $fecha_vencimiento = '';
 $etiqueta_id = null;
 
-// Obtener lista de etiquetas del usuario para el select
+// Obtener lista de etiquetas del usuario
 $etiquetas = [];
 $stmt_etq = $conn->prepare("SELECT id_etiqueta, nombre FROM etiquetas WHERE id_usuario = ?");
 $stmt_etq->bind_param("i", $user['id_usuario']);
@@ -55,13 +57,11 @@ while ($row = $res_etq->fetch_assoc()) {
 // Si está editando una tarea
 if (isset($_GET['editar'])) {
     $edit_id = intval($_GET['editar']);
-
-    $sql = "SELECT t.titulo, t.descripcion, t.estado, t.prioridad, t.fecha_vencimiento, te.id_etiqueta 
-            FROM tareas t
-            LEFT JOIN tareas_etiquetas te ON t.id_tarea = te.id_tarea
-            WHERE t.id_tarea = ? AND t.id_usuario = ?";
+    $sql = "SELECT t.titulo, t.descripcion, t.estado, t.prioridad, t.fecha_vencimiento, te.id_etiqueta
+             FROM tareas t
+             LEFT JOIN tareas_etiquetas te ON t.id_tarea = te.id_tarea
+             WHERE t.id_tarea = ? AND t.id_usuario = ?";
     $stmt_edit = $conn->prepare($sql);
-
     if ($stmt_edit) {
         $stmt_edit->bind_param("ii", $edit_id, $user['id_usuario']);
         $stmt_edit->execute();
@@ -76,21 +76,37 @@ if (isset($_GET['editar'])) {
             $etiqueta_id = $fila['id_etiqueta'];
             $editando = true;
         }
-    } else {
-        echo "<div class='alert alert-danger'>Error SQL: " . $conn->error . "</div>";
     }
+}
+
+// ==========================
+// Cargar todas las tareas del usuario
+// ==========================
+$tareas = [];
+$sql = "SELECT t.id_tarea, t.titulo, t.descripcion, t.estado, t.prioridad, t.fecha_vencimiento, t.orden,
+                GROUP_CONCAT(e.nombre SEPARATOR ', ') AS etiquetas
+        FROM tareas t
+        LEFT JOIN tareas_etiquetas te ON t.id_tarea = te.id_tarea
+        LEFT JOIN etiquetas e ON te.id_etiqueta = e.id_etiqueta
+        WHERE t.id_usuario = ?
+        GROUP BY t.id_tarea
+        ORDER BY t.orden ASC";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user['id_usuario']);
+$stmt->execute();
+$res = $stmt->get_result();
+while ($row = $res->fetch_assoc()) {
+    $tareas[] = $row;
 }
 ?>
 
 <?php include(__DIR__ . '/../includes/header.php'); ?>
 
-<!-- CSS personalizado -->
 <link rel="stylesheet" href="<?php echo URL_BASE ?>/assets/css/estilos-etiquetas.css" />
 
 <div class="container mt-4">
     <h2 class="mb-4">Gestión de Tareas <b><?php echo htmlspecialchars($user['username']); ?></b></h2>
 
-    <!-- Formulario -->
     <div class="card mb-4 shadow-sm">
         <div class="card-body">
             <form method="POST" action="guardar_tarea.php">
@@ -142,8 +158,8 @@ if (isset($_GET['editar'])) {
 
                 <?php if ($editando): ?>
                     <input type="hidden" name="id" value="<?= $edit_id ?>">
-                    <button type="submit" name="actualizar" class="btn btn-primary">Actualizar</button>
-                    <a href="tareas.php" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" name="editar" class="btn btn-primary">Actualizar</button>
+                    <a href="<?php echo URL_BASE ?>/pages/tareas.php" class="btn btn-secondary">Cancelar</a>
                 <?php else: ?>
                     <button type="submit" name="crear" class="btn btn-success">
                         <i class="bi bi-plus-circle"></i> Crear
@@ -153,66 +169,47 @@ if (isset($_GET['editar'])) {
         </div>
     </div>
 
-    <!-- Tabla de tareas -->
-    <h4 class="mb-3">Mis tareas</h4>
     <div class="table-responsive">
         <table class="table table-striped table-hover align-middle shadow-sm">
             <thead class="table-dark">
                 <tr>
+                    <th>Orden</th>
                     <th>Título</th>
                     <th>Descripción</th>
-                    <th>Estado</th>
                     <th>Prioridad</th>
-                    <th>Fecha creación</th>
+                    <th>Estado</th>
+                    <th>Etiquetas</th>
                     <th>Vencimiento</th>
-                    <th>Etiqueta</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php
-                $sql = "SELECT t.id_tarea, t.titulo, t.descripcion, t.estado, t.prioridad, t.fecha_creacion, t.fecha_vencimiento,
-                               e.nombre AS etiqueta
-                        FROM tareas t
-                        LEFT JOIN tareas_etiquetas te ON t.id_tarea = te.id_tarea
-                        LEFT JOIN etiquetas e ON te.id_etiqueta = e.id_etiqueta
-                        WHERE t.id_usuario = ?
-                        ORDER BY t.fecha_creacion DESC";
-                $stmt_tareas = $conn->prepare($sql);
-                if ($stmt_tareas) {
-                    $stmt_tareas->bind_param("i", $user['id_usuario']);
-                    $stmt_tareas->execute();
-                    $res_tareas = $stmt_tareas->get_result();
-
-                    while ($row_t = $res_tareas->fetch_assoc()): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($row_t['titulo']) ?></td>
-                            <td><?= htmlspecialchars($row_t['descripcion']) ?></td>
-                            <td><?= htmlspecialchars($row_t['estado']) ?></td>
-                            <td><?= htmlspecialchars($row_t['prioridad']) ?></td>
-                            <td><?= htmlspecialchars($row_t['fecha_creacion']) ?></td>
-                            <td><?= htmlspecialchars($row_t['fecha_vencimiento']) ?></td>
-                            <td><?= htmlspecialchars($row_t['etiqueta'] ?? 'Sin etiqueta') ?></td>
-                            <td>
-                                <a href="tareas.php?editar=<?= $row_t['id_tarea'] ?>" class="btn btn-warning btn-sm">Editar</a>
-                                <a href="guardar_tarea.php?eliminar=<?= $row_t['id_tarea'] ?>"
-                                    class="btn btn-danger btn-sm btnEliminar">
-                                    Eliminar
-                                </a>
-                                <a href="imprimir.php" class="btn btn-warning btn-sm">Imprimir</a>
-                            </td>
-                        </tr>
-                <?php endwhile;
-                } else {
-                    echo "<tr><td colspan='8' class='text-danger'>Error SQL: " . $conn->error . "</td></tr>";
-                }
-                ?>
+            <tbody id="sortable">
+                <?php foreach ($tareas as $t): ?>
+                    <tr data-id="<?php echo $t['id_tarea']; ?>">
+                        <td><?php echo (int)$t['orden']; ?></td>
+                        <td><?php echo htmlspecialchars($t['titulo']); ?></td>
+                        <td><?php echo htmlspecialchars($t['descripcion']); ?></td>
+                        <td><?php echo htmlspecialchars($t['prioridad']); ?></td>
+                        <td><?php echo htmlspecialchars($t['estado']); ?></td>
+                        <td><?php echo $t['etiquetas'] ?: '<small class="text-muted">Sin etiquetas</small>'; ?></td>
+                        <td><?php echo !empty($t['fecha_vencimiento']) ? htmlspecialchars($t['fecha_vencimiento']) : '-'; ?></td>
+                        <td>
+                            <a href="<?php echo URL_BASE ?>/pages/tareas.php?editar=<?php echo $t['id_tarea']; ?>"
+                               class="btn btn-warning btn-sm action-link">Editar</a>
+                            <a href="<?php echo URL_BASE ?>/pages/guardar_tarea.php?eliminar=<?php echo $t['id_tarea']; ?>"
+                               class="btn btn-danger btn-sm btnEliminar action-link">Eliminar</a>
+                            <a href="<?php echo URL_BASE ?>/pages/imprimir.php?id=<?php echo $t['id_tarea']; ?>"
+                               class="btn btn-warning btn-sm action-link">Imprimir</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </div>
 
-<!-- MODAL CONFIRMAR ELIMINACIÓN DE TAREA -->
+<?php include(__DIR__ . '/../includes/footer.php'); ?>
+
 <div id="modalEliminar" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
      background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
     <div style="background:#fff; padding:20px; border-radius:12px; width:320px; text-align:center;">
@@ -224,41 +221,66 @@ if (isset($_GET['editar'])) {
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
 <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const tabla = document.getElementById("sortable");
+
+    new Sortable(tabla, {
+        animation: 150,
+        onEnd: () => {
+            let orden = [];
+            tabla.querySelectorAll("tr[data-id]").forEach((row, index) => {
+                orden.push({
+                    id: row.dataset.id,
+                    orden: index + 1
+                });
+            });
+
+            fetch("<?php echo URL_BASE ?>/pages/update_order.php", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(orden)
+            })
+            .then(res => res.text())
+            .then(resp => {
+                console.log("Respuesta servidor:", resp);
+            })
+            .catch(err => console.error("Error:", err));
+        }
+    });
+
+    // MODAL eliminar
     let enlaceEliminar = null;
     const modal = document.getElementById("modalEliminar");
     const btnSi = document.getElementById("btnSiEliminar");
     const btnNo = document.getElementById("btnNoEliminar");
 
-    // Detectar clic en botones Eliminar
     document.querySelectorAll(".btnEliminar").forEach(link => {
         link.addEventListener("click", function(e) {
-            e.preventDefault(); // no navegar aún
+            e.preventDefault();
             enlaceEliminar = this.getAttribute("href");
             modal.style.display = "flex";
         });
     });
 
-    // Confirmar eliminación
     btnSi.addEventListener("click", function() {
         if (enlaceEliminar) {
             window.location.href = enlaceEliminar;
         }
     });
 
-    // Cancelar
     btnNo.addEventListener("click", function() {
         modal.style.display = "none";
         enlaceEliminar = null;
     });
 
-    // Cerrar al hacer clic fuera del modal
     modal.addEventListener("click", function(e) {
         if (e.target === modal) {
             modal.style.display = "none";
             enlaceEliminar = null;
         }
     });
+});
 </script>
-
-<?php include(__DIR__ . '/../includes/footer.php'); ?>

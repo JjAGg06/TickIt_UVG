@@ -2,7 +2,7 @@
 include("includes/header.php");
 include("includes/slideshow.php");
 
-// Asegurarnos de tener la sesión del usuario
+// Sesión
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -15,6 +15,15 @@ if (!isset($_SESSION['usuario_id'])) {
 }
 
 $usuario_id = $_SESSION['usuario_id'];
+
+// Obtener tema del usuario
+$sqlTema = "SELECT tema_preferido FROM usuario WHERE id_usuario = ?";
+$stmtTema = $conn->prepare($sqlTema);
+$stmtTema->bind_param("i", $usuario_id);
+$stmtTema->execute();
+$resTema = $stmtTema->get_result();
+$userTema = $resTema->fetch_assoc();
+$tema_preferido = $userTema['tema_preferido'] ?? 'claro';
 
 // Traer tareas agrupadas por fecha de vencimiento (SOLO pendientes)
 $sql = "
@@ -50,6 +59,7 @@ $maniana = date("Y-m-d", strtotime("+1 day"));
 
 <link rel="stylesheet" href="<?php echo URL_BASE ?>/assets/css/index.css" />
 
+<body class="<?php echo ($tema_preferido === 'oscuro') ? 'dark-mode' : ''; ?>">
 <div class="container mt-4">
     <?php foreach ($tareas_por_fecha as $fecha => $tareas): ?>
         <?php
@@ -66,9 +76,7 @@ $maniana = date("Y-m-d", strtotime("+1 day"));
         <h3 class="mb-3"><?= $titulo_fecha ?></h3>
         <hr class="linea">
         <?php foreach ($tareas as $tarea): ?>
-            <div class="tarea"
-                data-id="<?= $tarea['id_tarea'] ?>"
-                style="cursor:pointer; border:1px solid #333; border-radius:8px; padding:10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+            <div class="tarea" data-id="<?= $tarea['id_tarea'] ?>">
                 <div>
                     <h5><?= htmlspecialchars($tarea['titulo']) ?></h5>
                     <div>
@@ -77,7 +85,8 @@ $maniana = date("Y-m-d", strtotime("+1 day"));
                             $etiquetas = explode('||', $tarea['etiquetas']);
                             foreach ($etiquetas as $etq) {
                                 list($nombre, $color) = explode('|', $etq);
-                                echo "<span style='display:inline-block; padding:2px 6px; margin:2px; border-radius:6px; background:$color; color:#fff; font-size:0.85rem;'>-" . htmlspecialchars($nombre) . "</span>";
+                                $color = $color ?: "#008c3e"; // color por defecto
+                                echo "<span style='background:$color; color:#fff;'>" . htmlspecialchars($nombre) . "</span>";
                             }
                         }
                         ?>
@@ -95,14 +104,13 @@ $maniana = date("Y-m-d", strtotime("+1 day"));
 </div>
 
 <!-- MODAL -->
-<div id="modalTarea" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-     background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
-    <div style="background:#fff; padding:20px; border-radius:8px; width:300px; text-align:center;">
+<div id="modalTarea">
+    <div>
         <h5>¿Qué quieres hacer?</h5>
-        <button id="btnVerTarea" class="btn btn-primary mt-2">Ver Tarea</button><br>
-        <button id="btnVerEtiquetas" class="btn btn-info mt-2">Ver Etiquetas</button><br>
-        <button id="btnCompletar" class="btn btn-success mt-2">Marcar como Completada</button><br>
-        <button id="btnCerrar" class="btn btn-secondary mt-2">Cancelar</button>
+        <button id="btnVerTarea">Ver Tarea</button>
+        <button id="btnVerEtiquetas">Ver Etiquetas</button>
+        <button id="btnCompletar">Marcar como Completada</button>
+        <button id="btnCerrar">Cancelar</button>
     </div>
 </div>
 
@@ -164,3 +172,4 @@ $maniana = date("Y-m-d", strtotime("+1 day"));
 </script>
 
 <?php include("includes/footer.php"); ?>
+</body>

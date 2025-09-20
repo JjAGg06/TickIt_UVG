@@ -114,3 +114,61 @@ button:hover {
     margin-bottom: 1rem;
     color: #fff;
 }
+
+/* ======================
+   MODO OSCURO
+   ====================== */
+
+body.dark-mode {
+    background: linear-gradient(90deg, #121212 0%, #1e1e1e 100%);
+    color: #f1f1f1;
+}
+
+body.dark-mode .login-contenedor {
+    background: #2c2c2c;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.8);
+}
+
+body.dark-mode .login-contenedor h2 {
+    color: #fff;
+}
+
+body.dark-mode label {
+    color: #ddd;
+}
+
+body.dark-mode input,
+body.dark-mode select {
+    background: #3a3a3a;
+    color: #fff;
+    border: 1px solid #666;
+}
+
+body.dark-mode input:focus,
+body.dark-mode select:focus {
+    border: 2px solid #00c853;
+    box-shadow: 0 0 6px rgba(0, 200, 83, 0.5);
+}
+
+body.dark-mode button {
+    background: #00c853;
+    color: #fff;
+}
+
+body.dark-mode button:hover {
+    background: #009624;
+}
+
+body.dark-mode .contenedor a {
+    color: #80e27e;
+}
+
+body.dark-mode .contenedor a:hover {
+    color: #b9f6ca;
+}
+
+body.dark-mode .mensaje-error {
+    background: #b71c1c;
+    color: #fff;
+}

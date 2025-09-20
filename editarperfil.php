@@ -18,6 +18,15 @@ if (!isset($_SESSION['usuario_id'])) {
 $mensaje = "";
 $id_usuario = $_SESSION['usuario_id'];
 
+// Obtener tema del usuario (corregido con $id_usuario)
+$sqlTema = "SELECT tema_preferido FROM usuario WHERE id_usuario = ?";
+$stmtTema = $conn->prepare($sqlTema);
+$stmtTema->bind_param("i", $id_usuario);
+$stmtTema->execute();
+$resTema = $stmtTema->get_result();
+$userTema = $resTema->fetch_assoc();
+$tema_preferido = $userTema['tema_preferido'] ?? 'claro';
+
 // Obtener datos actuales
 $sql = "SELECT username, correo, tema_preferido, imagen FROM usuario WHERE id_usuario = ?";
 $stmt = $conn->prepare($sql);
@@ -79,6 +88,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->bind_param("i", $id_usuario);
         $stmt->execute();
         $usuario = $stmt->get_result()->fetch_assoc();
+
+        // Actualizar también variable tema_preferido
+        $tema_preferido = $usuario['tema_preferido'];
     } else {
         $mensaje = "Error al actualizar: " . $conn->error;
     }
@@ -90,9 +102,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <title>Editar Perfil</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="<?php echo URL_BASE ?>/assets/css/sesion.css"/>
+    <link rel="stylesheet" href="<?php echo URL_BASE ?>/assets/css/sesion.css" />
 </head>
-<body>
+<body class="<?php echo ($tema_preferido === 'oscuro') ? 'dark-mode' : ''; ?>">
 <div class="login-contenedor">
     <form method="POST" action="" enctype="multipart/form-data">
         <h2>Editar Perfil</h2>
@@ -131,10 +143,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <button type="submit">Guardar Cambios</button>
 
         <div class="contenedor">
-        <a href="index.php" class="btn-regresar">⬅ Regresar</a>
-    </div>
+            <a href="index.php" class="btn-regresar">⬅ Regresar</a>
+        </div>
     </form>
-
+</div>
 </body>
 </html>
-

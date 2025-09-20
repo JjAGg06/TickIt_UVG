@@ -30,10 +30,18 @@ if (isset($_POST['crear'])) {
     $estado = $_POST['estado'] ?? 'pendiente';
     $prioridad = $_POST['prioridad'] ?? 'media';
     $fecha_vencimiento = !empty($_POST['fecha_vencimiento']) ? $_POST['fecha_vencimiento'] : null;
-    $orden = intval($_POST['orden'] ?? 0);
     $etiqueta_id = intval($_POST['etiqueta_id'] ?? 0);
 
     if (!empty($titulo)) {
+        // Encontrar el valor de orden más alto para el usuario y sumarle 1
+        $sql_orden = "SELECT MAX(orden) AS max_orden FROM tareas WHERE id_usuario = ?";
+        $stmt_orden = checkStmt($conn->prepare($sql_orden), "obtener_orden");
+        $stmt_orden->bind_param("i", $usuario_id);
+        $stmt_orden->execute();
+        $res_orden = $stmt_orden->get_result();
+        $fila_orden = $res_orden->fetch_assoc();
+        $orden = ($fila_orden['max_orden'] ?? 0) + 1;
+
         $stmt = checkStmt(
             $conn->prepare("INSERT INTO tareas 
                 (id_usuario, titulo, descripcion, estado, prioridad, fecha_creacion, fecha_vencimiento, orden) 
@@ -61,29 +69,30 @@ if (isset($_POST['crear'])) {
 }
 
 // ACTUALIZAR TAREA
-if (isset($_POST['actualizar']) && isset($_POST['id'])) {
+if (isset($_POST['editar']) && isset($_POST['id'])) {
     $id_tarea = intval($_POST['id']);
     $titulo = trim($_POST['titulo']);
     $descripcion = trim($_POST['descripcion']);
     $estado = $_POST['estado'] ?? 'pendiente';
     $prioridad = $_POST['prioridad'] ?? 'media';
     $fecha_vencimiento = !empty($_POST['fecha_vencimiento']) ? $_POST['fecha_vencimiento'] : null;
-    $orden = intval($_POST['orden'] ?? 0);
     $etiqueta_id = intval($_POST['etiqueta_id'] ?? 0);
 
     if (!empty($titulo)) {
         $stmt = checkStmt(
             $conn->prepare("UPDATE tareas 
-                            SET titulo = ?, descripcion = ?, estado = ?, prioridad = ?, fecha_vencimiento = ?, orden = ? 
-                            WHERE id_tarea = ? AND id_usuario = ?"),
+                             SET titulo = ?, descripcion = ?, estado = ?, prioridad = ?, fecha_vencimiento = ?
+                             WHERE id_tarea = ? AND id_usuario = ?"),
             "actualizar"
         );
-        $stmt->bind_param("sssssiii", $titulo, $descripcion, $estado, $prioridad, $fecha_vencimiento, $orden, $id_tarea, $usuario_id);
+        $stmt->bind_param("sssssii", $titulo, $descripcion, $estado, $prioridad, $fecha_vencimiento, $id_tarea, $usuario_id);
         $stmt->execute();
 
         // Actualizar relación etiqueta
         // Primero eliminar cualquier relación anterior
-        $conn->query("DELETE FROM tareas_etiquetas WHERE id_tarea = $id_tarea");
+        $stmt_del_etq = checkStmt($conn->prepare("DELETE FROM tareas_etiquetas WHERE id_tarea = ?"), "eliminar_relacion");
+        $stmt_del_etq->bind_param("i", $id_tarea);
+        $stmt_del_etq->execute();
 
         // Luego insertar la nueva relación si se seleccionó etiqueta
         if ($etiqueta_id > 0) {
@@ -104,10 +113,11 @@ if (isset($_POST['actualizar']) && isset($_POST['id'])) {
 if (isset($_GET['eliminar'])) {
     $id_tarea = intval($_GET['eliminar']);
 
-    // Primero borrar relaciones con etiquetas
-    $conn->query("DELETE FROM tareas_etiquetas WHERE id_tarea = $id_tarea");
+    // Usar sentencias preparadas para mayor seguridad
+    $stmt_del_etq = checkStmt($conn->prepare("DELETE FROM tareas_etiquetas WHERE id_tarea = ?"), "eliminar_relacion_tarea");
+    $stmt_del_etq->bind_param("i", $id_tarea);
+    $stmt_del_etq->execute();
 
-    // Luego eliminar la tarea
     $stmt = checkStmt(
         $conn->prepare("DELETE FROM tareas WHERE id_tarea = ? AND id_usuario = ?"),
         "eliminar"
@@ -133,5 +143,4 @@ if (isset($_POST['completar']) && isset($_POST['id'])) {
     echo "ok";
     exit;
 }
-
 ?>

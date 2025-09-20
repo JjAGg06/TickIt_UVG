@@ -77,16 +77,3 @@ if (isset($_GET['eliminar'])) {
     exit;
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Mis Etiquetas</title>
-    <link rel="stylesheet" href="<?php echo URL_BASE; ?>/assets/css/estilo-etiquetas.css">
-</head>
-<body>
-    <h1>Administrar Etiquetas</h1>
-    <!-- Aquí puedes agregar formularios o mensajes de éxito si quieres -->
-</body>
-</html>

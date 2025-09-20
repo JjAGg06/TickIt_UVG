@@ -18,7 +18,7 @@
     left: 0;
 }
 
-/* Boton flotante SIEMPRE visible w */
+/* Boton flotante SIEMPRE visible */
 .floating-icon {
     position: fixed;
     top: 1rem;
@@ -91,7 +91,7 @@
 
 .notif-btn {
     background: #fff;
-    color:  #008c3e;
+    color: #008c3e;
     border: none;
     padding: 0.6rem 1rem;
     border-radius: 20px;
@@ -103,7 +103,40 @@
     background: #FFD700;
 }
 
-/* Calendario (esta por terminar)*/
-.calendar {
-    text-align: center;
+/* ======================
+   MODO OSCURO SLIDESHOW
+   ====================== */
+
+body.dark-mode .slideshow {
+    background: linear-gradient(90deg, #1f1f1f 0%, #333 100%);
+    box-shadow: 2px 0 8px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .floating-icon {
+    background: #00c853; /* Verde más brillante para modo oscuro */
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .floating-icon:hover {
+    background: #009624; /* Tono de verde más oscuro para el hover */
+}
+
+body.dark-mode .icon-btn {
+    color: #f1f1f1;
+}
+
+body.dark-mode .username {
+    color: #f1f1f1;
+}
+
+body.dark-mode .notif-btn {
+    background: #444; /* Fondo gris oscuro para el botón de notificación */
+    color: #f1f1f1;
+    border: 1px solid #666;
+}
+
+body.dark-mode .notif-btn:hover {
+    background: #555;
+    color: #fff;
 }

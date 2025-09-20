@@ -116,7 +116,7 @@ body {
     color: #008c3e;
 }
 
-/* BOTONES MODAL (misma estética que el "Crear") */
+/* BOTONES MODAL */
 #modalTarea button {
     display: block;
     width: 100%;
@@ -140,7 +140,6 @@ body {
     FORMULARIO DE FILTROS
     ====================== */
 
-/* Contenedor del formulario de filtros */
 .filtros-card {
     background: #fff;
     padding: 1.5rem;
@@ -150,7 +149,6 @@ body {
     max-width: 600px;
 }
 
-/* Titulo del filtro */
 .filtros-card h4 {
     color: #008c3e;
     font-weight: 600;
@@ -158,7 +156,6 @@ body {
     text-align: center;
 }
 
-/* Inputs del formulario */
 .filtros-card .form-control {
     width: 95% !important;
     padding: 0.6rem 0.9rem !important;
@@ -176,7 +173,6 @@ body {
     box-shadow: 0 0 6px rgba(0, 140, 62, 0.3) !important;
 }
 
-/* Etiquetas de inputs */
 .filtros-card label {
     font-weight: 600;
     font-size: 0.95rem;
@@ -185,7 +181,6 @@ body {
     color: #111;
 }
 
-/* Botón de aplicar filtros */
 .filtros-card .btn-filtrar {
     background-color: #008c3e !important;
     border: none !important;
@@ -203,4 +198,78 @@ body {
 
 .filtros-card .btn-filtrar:hover {
     background-color: #006f2c !important;
+}
+
+/* ======================
+   MODO OSCURO
+   ====================== */
+
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+}
+
+/* Tarjetas de tareas */
+body.dark-mode .tarea {
+    background: #2c2c2c;
+    border-left: 6px solid #00c853;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .tarea h5 {
+    color: #fff;
+}
+
+body.dark-mode .tarea p {
+    color: #ddd;
+}
+
+body.dark-mode .tarea small {
+    color: #bbb;
+}
+
+body.dark-mode .tarea span {
+    background: #444;
+    color: #fff;
+}
+
+/* Modal */
+body.dark-mode #modalTarea > div,
+body.dark-mode #modalTarea .modal-content {
+    background: #2c2c2c;
+    color: #fff;
+}
+
+/* Notificaciones (no-vistos / vistos) */
+body.dark-mode .tarea.no-visto {
+    border: 1px solid #888;
+    background: #2e2e2e;
+    color: #f1f1f1;
+}
+
+body.dark-mode .tarea.visto {
+    border: 1px solid #666;
+    background: #1f1f1f;
+    color: #ccc;
+}
+
+/* Filtros */
+body.dark-mode .filtros-card {
+    background: #2c2c2c;
+    color: #fff;
+}
+
+body.dark-mode .filtros-card label {
+    color: #fff;
+}
+
+body.dark-mode .form-control {
+    background: #3a3a3a !important;
+    border: 1px solid #666 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .form-control:focus {
+    border: 2px solid #00c853 !important;
+    box-shadow: 0 0 6px rgba(0, 200, 83, 0.5) !important;
 }
