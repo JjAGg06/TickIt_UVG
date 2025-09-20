@@ -186,3 +186,89 @@
         margin-bottom: 1rem;
     }
 }
+
+/* ======================
+   MODO OSCURO NAVBAR + FOOTER
+   ====================== */
+
+/* NAVBAR */
+body.dark-mode .navbar {
+    background: linear-gradient(90deg, #333 0%, #008c3e 100%);
+    color: #f1f1f1;
+}
+
+body.dark-mode .navbar-brand {
+    color: #f1f1f1;
+}
+
+body.dark-mode .navbar-brand:hover {
+    color: #00c853; /* Verde vivo */
+}
+
+body.dark-mode .nav-item {
+    color: #ddd;
+}
+
+body.dark-mode .nav-item:hover {
+    color: #00c853; /* Verde neón */
+}
+
+/* Barra de búsqueda */
+body.dark-mode .search-bar input {
+    background: #3a3a3a;
+    color: #fff;
+    border: 1px solid #666;
+}
+
+body.dark-mode .search-bar input::placeholder {
+    color: #aaa;
+}
+
+body.dark-mode .search-bar button {
+    background-color: #333;
+    color: #00c853;
+}
+
+body.dark-mode .search-bar button:hover {
+    background-color: #00c853;
+    color: #fff;
+}
+
+/* FOOTER */
+body.dark-mode .footer {
+    background: linear-gradient(90deg, #333 0%, #008c3e 100%);
+    color: #f1f1f1;
+}
+
+body.dark-mode .footer-top h2 {
+    color: #00c853; /* Verde más vivo */
+}
+
+body.dark-mode .footer-left img {
+    background: #222; /* Fondo oscuro en vez de blanco */
+    border: 1px solid #444;
+}
+
+body.dark-mode .footer-right a {
+    color: #ddd;
+}
+
+body.dark-mode .footer-right a:hover {
+    color: #00c853;
+}
+
+/* Logo normal */
+.footer-logo {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: #fff;
+    padding: 5px;
+}
+
+/* Cambiar imagen en modo oscuro */
+body.dark-mode .footer-logo {
+    content: url("../img/TIUVGb.png");
+    background: transparent; /* opcional, para quitar fondo blanco */
+}

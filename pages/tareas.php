@@ -195,11 +195,11 @@ while ($row = $res->fetch_assoc()) {
                         <td><?php echo !empty($t['fecha_vencimiento']) ? htmlspecialchars($t['fecha_vencimiento']) : '-'; ?></td>
                         <td>
                             <a href="<?php echo URL_BASE ?>/pages/tareas.php?editar=<?php echo $t['id_tarea']; ?>"
-                               class="btn btn-warning btn-sm action-link">Editar</a>
+                                class="btn btn-warning btn-sm action-link">Editar</a>
                             <a href="<?php echo URL_BASE ?>/pages/guardar_tarea.php?eliminar=<?php echo $t['id_tarea']; ?>"
-                               class="btn btn-danger btn-sm btnEliminar action-link">Eliminar</a>
+                                class="btn btn-danger btn-sm btnEliminar action-link">Eliminar</a>
                             <a href="<?php echo URL_BASE ?>/pages/imprimir.php?id=<?php echo $t['id_tarea']; ?>"
-                               class="btn btn-warning btn-sm action-link">Imprimir</a>
+                                class="btn btn-warning btn-sm action-link">Imprimir</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -210,10 +210,9 @@ while ($row = $res->fetch_assoc()) {
 
 <?php include(__DIR__ . '/../includes/footer.php'); ?>
 
-<div id="modalEliminar" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-     background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
-    <div style="background:#fff; padding:20px; border-radius:12px; width:320px; text-align:center;">
-        <h5>¿Estás seguro de eliminar esta tarea?</h5>
+<div id="modalEliminar" class="modal-custom">
+    <div class="modal-content-custom">
+        <h5>¿Estás seguro de eliminar esta etiqueta?</h5>
         <div class="mt-3">
             <button id="btnSiEliminar" class="btn btn-success">Sí</button>
             <button id="btnNoEliminar" class="btn btn-secondary">No</button>
@@ -224,63 +223,65 @@ while ($row = $res->fetch_assoc()) {
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const tabla = document.getElementById("sortable");
+    document.addEventListener("DOMContentLoaded", () => {
+        const tabla = document.getElementById("sortable");
 
-    new Sortable(tabla, {
-        animation: 150,
-        onEnd: () => {
-            let orden = [];
-            tabla.querySelectorAll("tr[data-id]").forEach((row, index) => {
-                orden.push({
-                    id: row.dataset.id,
-                    orden: index + 1
+        new Sortable(tabla, {
+            animation: 150,
+            onEnd: () => {
+                let orden = [];
+                tabla.querySelectorAll("tr[data-id]").forEach((row, index) => {
+                    orden.push({
+                        id: row.dataset.id,
+                        orden: index + 1
+                    });
                 });
-            });
 
-            fetch("<?php echo URL_BASE ?>/pages/update_order.php", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(orden)
-            })
-            .then(res => res.text())
-            .then(resp => {
-                console.log("Respuesta servidor:", resp);
-            })
-            .catch(err => console.error("Error:", err));
-        }
-    });
-
-    // MODAL eliminar
-    let enlaceEliminar = null;
-    const modal = document.getElementById("modalEliminar");
-    const btnSi = document.getElementById("btnSiEliminar");
-    const btnNo = document.getElementById("btnNoEliminar");
-
-    document.querySelectorAll(".btnEliminar").forEach(link => {
-        link.addEventListener("click", function(e) {
-            e.preventDefault();
-            enlaceEliminar = this.getAttribute("href");
-            modal.style.display = "flex";
+                fetch("<?php echo URL_BASE ?>/pages/update_order.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(orden)
+                    })
+                    .then(res => res.text())
+                    .then(resp => {
+                        console.log("Respuesta servidor:", resp);
+                    })
+                    .catch(err => console.error("Error:", err));
+            }
         });
-    });
 
-    btnSi.addEventListener("click", function() {
-        if (enlaceEliminar) {
-            window.location.href = enlaceEliminar;
-        }
-    });
+        // MODAL eliminar
+        let enlaceEliminar = null;
+        const modal = document.getElementById("modalEliminar");
+        const btnSi = document.getElementById("btnSiEliminar");
+        const btnNo = document.getElementById("btnNoEliminar");
 
-    btnNo.addEventListener("click", function() {
-        modal.style.display = "none";
-        enlaceEliminar = null;
-    });
+        document.querySelectorAll(".btnEliminar").forEach(link => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault();
+                enlaceEliminar = this.getAttribute("href");
+                modal.style.display = "flex";
+            });
+        });
 
-    modal.addEventListener("click", function(e) {
-        if (e.target === modal) {
+        btnSi.addEventListener("click", function() {
+            if (enlaceEliminar) {
+                window.location.href = enlaceEliminar;
+            }
+        });
+
+        btnNo.addEventListener("click", function() {
             modal.style.display = "none";
             enlaceEliminar = null;
-        }
+        });
+
+        modal.addEventListener("click", function(e) {
+            if (e.target === modal) {
+                modal.style.display = "none";
+                enlaceEliminar = null;
+            }
+        });
     });
-});
 </script>

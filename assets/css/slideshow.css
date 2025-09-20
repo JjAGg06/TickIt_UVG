@@ -108,7 +108,7 @@
    ====================== */
 
 body.dark-mode .slideshow {
-    background: linear-gradient(90deg, #1f1f1f 0%, #333 100%);
+    background: linear-gradient(90deg, #333 0%, #008c3e 100%);
     box-shadow: 2px 0 8px rgba(255, 255, 255, 0.1);
 }
 
@@ -139,4 +139,24 @@ body.dark-mode .notif-btn {
 body.dark-mode .notif-btn:hover {
     background: #555;
     color: #fff;
+}
+
+/* Boton flotante SIEMPRE visible */
+body.dark-mode .floating-icon {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2100; /* más alto que el slideshow */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background 0.3s ease-in-out;
 }

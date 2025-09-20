@@ -161,9 +161,8 @@ if (isset($_GET['editar'])) {
         </div>
     </div>
 
-    <div id="modalEliminar" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-     background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
-        <div style="background:#fff; padding:20px; border-radius:12px; width:320px; text-align:center;">
+    <div id="modalEliminar" class="modal-custom">
+        <div class="modal-content-custom">
             <h5>¿Estás seguro de eliminar esta etiqueta?</h5>
             <div class="mt-3">
                 <button id="btnSiEliminar" class="btn btn-success">Sí</button>
